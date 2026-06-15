@@ -414,10 +414,13 @@
 
     .demo-card {
       width: min(520px, 100%);
+      max-height: calc(100dvh - 36px);
       border-radius: 8px;
       background: #fff;
       box-shadow: 0 24px 80px rgba(0, 0, 0, .25);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .demo-card header {
@@ -456,6 +459,9 @@
       display: grid;
       gap: 12px;
       padding: 18px;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .demo-form label {
@@ -467,10 +473,12 @@
     }
 
     .demo-form input {
+      width: 100%;
       min-height: 46px;
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 0 12px;
+      font-size: 16px;
       outline: none;
     }
 
@@ -537,6 +545,69 @@
       .hero { min-height: auto; }
       .grid.features, .grid.two, .grid.four, .role-list { grid-template-columns: 1fr; }
       .hero-stats { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .modal {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      .demo-card {
+        width: 100%;
+        max-height: min(92dvh, calc(100dvh - 20px));
+        border-radius: 14px;
+      }
+
+      .demo-card header {
+        flex-shrink: 0;
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .demo-card h3 {
+        font-size: 18px;
+        line-height: 1.2;
+      }
+
+      .demo-card header p {
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .demo-form,
+      .demo-success {
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .demo-form label {
+        gap: 5px;
+        font-size: 12px;
+      }
+
+      .demo-form input {
+        min-height: 42px;
+        border-radius: 8px;
+        padding: 0 11px;
+      }
+
+      .demo-consent {
+        font-size: 11px !important;
+        line-height: 1.35;
+      }
+
+      .demo-consent input {
+        width: 16px;
+        min-height: 16px;
+        flex: 0 0 16px;
+      }
+
+      #demo-submit,
+      #demo-link-button {
+        width: 100%;
+        min-height: 44px;
+      }
     }
 
     @media print {
@@ -700,7 +771,7 @@
       <div class="container cta-box">
         <div>
           <h2>Ingin melihat demo sistem sekolah lengkap?</h2>
-          <p>Isi data singkat, sistem akan menyimpan lead marketing dan membuka WhatsApp admin dengan pesan otomatis sesuai identitas sekolah.</p>
+          <p>Isi data singkat, lalu WhatsApp admin akan terbuka dengan pesan otomatis sesuai identitas sekolah.</p>
         </div>
         <a class="btn green" href="#demo" data-demo-open data-cta-name="bottom_demo"><i class="fa-brands fa-whatsapp"></i> Minta Demo</a>
       </div>
@@ -720,7 +791,7 @@
       <header>
         <div>
           <h3 id="demo-title">Minta Demo Sistem Sekolah</h3>
-          <p>Data masuk ke marketing analytics dan WhatsApp admin.</p>
+          <p>Isi data singkat, lalu WhatsApp admin akan terbuka otomatis.</p>
         </div>
         <button class="demo-close" type="button" data-demo-close aria-label="Tutup form demo"><i class="fa-solid fa-xmark"></i></button>
       </header>
