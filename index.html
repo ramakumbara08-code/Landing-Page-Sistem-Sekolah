@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Sekolah SaaS - Absensi, SPP, Rapor, Ujian Online</title>
+  <meta name="description" content="Platform SaaS sekolah untuk absensi siswa QR/RFID/selfie/GPS, WhatsApp otomatis, SPP, rapor digital, ujian online anti nyontek, dan portal orang tua.">
+  <meta name="theme-color" content="#0b76ef">
+  <link rel="icon" type="image/svg+xml" href="assets/fingerprint.svg">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #0b76ef;
+      --blue-dark: #075dbf;
+      --green: #149e68;
+      --amber: #d98600;
+      --ink: #172033;
+      --muted: #5d6b80;
+      --line: #dbe7f4;
+      --soft: #f4f9ff;
+      --paper: #ffffff;
+    }
+
+    * { box-sizing: border-box; min-width: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ffffff;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(219, 231, 244, .92);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      min-height: 72px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 0 16px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--blue-dark); }
+    .btn.green { background: var(--green); }
+    .btn.light {
+      background: #eaf3ff;
+      color: var(--blue-dark);
+    }
+
+    .hero {
+      min-height: 680px;
+      background:
+        linear-gradient(90deg, rgba(7, 25, 49, .88), rgba(7, 25, 49, .68)),
+        url("assets/product-preview.png") center / cover no-repeat;
+      color: #fff;
+    }
+
+    .hero-inner {
+      display: grid;
+      min-height: 680px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      align-items: center;
+      gap: 44px;
+      padding: 72px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      max-width: 760px;
+      font-size: clamp(38px, 6vw, 70px);
+      line-height: 1.02;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0;
+      color: rgba(255, 255, 255, .84);
+      font-size: 18px;
+      font-weight: 650;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+      max-width: 680px;
+    }
+
+    .stat {
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .12);
+      padding: 14px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, .76);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .hero-panel {
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .92);
+      color: var(--ink);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .24);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: #f7fbff;
+      padding: 14px;
+      font-weight: 900;
+    }
+
+    .panel-body {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .module-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .module-line span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .band {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      gap: 8px;
+      max-width: 780px;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.1;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.features { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 20px;
+      box-shadow: 0 12px 34px rgba(23, 32, 51, .06);
+    }
+
+    .icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 8px;
+      background: #eaf3ff;
+      color: var(--blue);
+      font-size: 18px;
+    }
+
+    .card h3 {
+      margin: 14px 0 8px;
+      font-size: 18px;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-weight: 640;
+    }
+
+    .card p { margin: 0; }
+    .card ul {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .role-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .role {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .role span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 64px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .cta-band {
+      background: #102033;
+      color: #fff;
+    }
+
+    .cta-box {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 44px);
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: rgba(255, 255, 255, .78);
+      font-weight: 650;
+    }
+
+    .wa-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 60;
+      display: grid;
+      width: 58px;
+      height: 58px;
+      place-items: center;
+      border-radius: 999px;
+      background: #25d366;
+      color: #fff;
+      box-shadow: 0 14px 34px rgba(20, 158, 104, .35);
+      text-decoration: none;
+      font-size: 24px;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 32, 51, .58);
+      padding: 18px;
+    }
+
+    .modal.active { display: flex; }
+
+    .demo-card {
+      width: min(520px, 100%);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .25);
+      overflow: hidden;
+    }
+
+    .demo-card header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f7fbff;
+      padding: 18px;
+    }
+
+    .demo-card h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .demo-card header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .demo-close {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 8px;
+      background: #eaf3ff;
+      color: var(--blue);
+      cursor: pointer;
+    }
+
+    .demo-form,
+    .demo-success {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+    }
+
+    .demo-form label {
+      display: grid;
+      gap: 7px;
+      color: #33445c;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .demo-form input {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .demo-form input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(11, 118, 239, .14);
+    }
+
+    .demo-consent {
+      display: flex !important;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px !important;
+      font-weight: 700 !important;
+    }
+
+    .demo-consent input {
+      width: 18px;
+      min-height: 18px;
+      margin-top: 2px;
+    }
+
+    .demo-error {
+      display: none;
+      border-radius: 8px;
+      background: #fff1f2;
+      color: #b4233c;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .demo-success {
+      display: none;
+      border-top: 1px solid var(--line);
+      background: #f4fff8;
+    }
+
+    .demo-success.active { display: grid; }
+
+    .demo-link-box {
+      overflow-wrap: anywhere;
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #f7fbff;
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .hero-inner, .cta-box { grid-template-columns: 1fr; }
+      .hero-inner { min-height: auto; }
+      .hero { min-height: auto; }
+      .grid.features, .grid.two, .grid.four, .role-list { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .nav, .wa-float, .modal { display: none !important; }
+      .hero { color: var(--ink); background: #fff; min-height: auto; }
+      .hero-inner { min-height: auto; grid-template-columns: 1fr; }
+      section { padding: 28px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Sistem Sekolah SaaS">
+        <span class="brand-mark"><i class="fa-solid fa-school"></i></span>
+        <span>Sistem Sekolah SaaS</span>
+      </a>
+      <div class="nav-links">
+        <a href="#fitur">Fitur</a>
+        <a href="#portal-orang-tua">Portal Orang Tua</a>
+        <a href="#role">Role</a>
+        <a href="#alur">Alur</a>
+        <a href="#keunggulan">Keunggulan</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="btn green" href="#demo" data-demo-open data-cta-name="nav_demo"><i class="fa-brands fa-whatsapp"></i> Minta Demo</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero" aria-label="Sistem Sekolah SaaS">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow"><i class="fa-solid fa-layer-group"></i> Platform operasional sekolah terpadu</span>
+          <h1>Sistem Sekolah SaaS untuk absensi, SPP, rapor, ujian, dan komunikasi orang tua.</h1>
+          <p>Satu dashboard untuk mengelola data sekolah dari awal sampai laporan: siswa, guru, kelas, absensi QR/RFID/selfie/GPS, WhatsApp otomatis Fonnte, pembayaran SPP, rapor digital, ujian online anti nyontek, portal siswa, dan portal orang tua.</p>
+          <div class="hero-actions">
+            <a class="btn green" href="#demo" data-demo-open data-cta-name="hero_demo"><i class="fa-brands fa-whatsapp"></i> Minta Demo via WA</a>
+            <a class="btn light" href="#fitur"><i class="fa-solid fa-circle-info"></i> Lihat Fitur</a>
+          </div>
+          <div class="hero-stats" aria-label="Ringkasan produk">
+            <div class="stat"><b>8</b><span>Role akses sekolah</span></div>
+            <div class="stat"><b>4</b><span>Metode absensi siswa</span></div>
+            <div class="stat"><b>1</b><span>Data master terintegrasi</span></div>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Preview modul sistem sekolah">
+          <div class="panel-head">
+            <span>Dashboard Sekolah</span>
+            <span><i class="fa-solid fa-shield-halved"></i> Multi-role</span>
+          </div>
+          <div class="panel-body">
+            <div class="module-line"><div>Absensi Siswa</div><span>QR, RFID, selfie, GPS</span></div>
+            <div class="module-line"><div>WA Otomatis</div><span>Fonnte + template</span></div>
+            <div class="module-line"><div>SPP & Tagihan</div><span>Bendahara + kuitansi</span></div>
+            <div class="module-line"><div>Rapor Digital</div><span>Validasi + publish</span></div>
+            <div class="module-line"><div>Ujian Online</div><span>Token + anti nyontek</span></div>
+            <div class="module-line"><div>Portal Orang Tua</div><span>Monitoring anak dari HP</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="fitur">
+      <div class="container">
+        <div class="section-head">
+          <h2>Fitur utama yang saling terhubung, bukan modul yang berdiri sendiri.</h2>
+          <p class="lead">Data master menjadi pusat: tahun ajaran, semester, kelas, siswa, wali, guru, dan mata pelajaran dipakai bersama oleh absensi, SPP, rapor, ujian, dan WhatsApp.</p>
+        </div>
+        <div class="grid features">
+          <article class="card"><span class="icon"><i class="fa-solid fa-qrcode"></i></span><h3>Absensi QR, RFID, Selfie, GPS</h3><p>Siswa bisa absen dengan QR kamera HP/laptop, scanner fisik, RFID, selfie, GPS/geofence, atau manual admin. Pencatatan masuk dan pulang tetap rapi, konsisten, dan mudah direkap.</p></article>
+          <article class="card"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span><h3>WhatsApp Otomatis Fonnte</h3><p>Notifikasi masuk, pulang, terlambat, alfa, reminder SPP, bukti pembayaran, pengumuman, rapor publish, dan jadwal ujian.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-money-bill-wave"></i></span><h3>SPP & Tagihan</h3><p>Bendahara bisa membuat jenis tagihan, generate per kelas/siswa, catat pembayaran, kuitansi digital, rekap tunggakan, dan laporan pemasukan.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-file-signature"></i></span><h3>Rapor Digital</h3><p>Guru input nilai sesuai mapel, wali kelas/admin validasi, rapor dipublish ke siswa/orang tua, dilengkapi kop sekolah dan barcode otentik.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-laptop-code"></i></span><h3>Ujian Online Anti Nyontek</h3><p>Bank soal, token, jadwal buka/tutup, timer, acak soal/jawaban, nilai otomatis PG, koreksi esai, dan log pindah tab/copy/paste/fullscreen.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-users"></i></span><h3>Portal Siswa & Orang Tua</h3><p>Siswa dan orang tua mendapatkan halaman pribadi dari HP untuk melihat kehadiran, pengumuman, tagihan, rapor, ujian, izin sakit online, dan riwayat pesan.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="portal-orang-tua">
+      <div class="container">
+        <div class="section-head">
+          <h2>Portal orang tua membantu keluarga ikut mendampingi perkembangan anak.</h2>
+          <p class="lead">Orang tua tidak hanya menerima informasi, tetapi punya ruang pantau yang praktis untuk memahami kehadiran, kewajiban administrasi, agenda sekolah, dan perkembangan belajar anak secara lebih dekat.</p>
+        </div>
+        <div class="grid features">
+          <article class="card"><span class="icon"><i class="fa-solid fa-calendar-check"></i></span><h3>Monitoring Kehadiran Anak</h3><p>Orang tua bisa melihat status hadir, terlambat, pulang, izin, sakit, atau alfa, lengkap dengan filter tanggal dan status agar riwayat kehadiran mudah dipahami.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-comment-medical"></i></span><h3>Izin dan Sakit Online</h3><p>Pengajuan izin atau sakit bisa dilakukan dari portal, disertai catatan dan bukti pendukung jika dibutuhkan, lalu tercatat untuk wali kelas/admin.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-receipt"></i></span><h3>Tagihan dan Pembayaran</h3><p>Orang tua dapat memantau SPP, tagihan lain, status lunas/tunggakan, riwayat pembayaran, dan bukti transaksi tanpa harus menunggu rekap manual.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-chart-line"></i></span><h3>Rapor dan Perkembangan Akademik</h3><p>Rapor yang sudah dipublish dapat dilihat dari rumah, termasuk ringkasan nilai, catatan guru, catatan wali kelas, dan rekap absensi pada periode rapor.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-bullhorn"></i></span><h3>Pengumuman dan Agenda</h3><p>Informasi sekolah, jadwal ujian, materi/tugas, dan pesan penting tersaji di satu tempat sehingga orang tua tidak mudah tertinggal kabar.</p></article>
+          <article class="card"><span class="icon"><i class="fa-solid fa-handshake-angle"></i></span><h3>Kontak Wali Kelas/Admin</h3><p>Portal membantu orang tua menghubungi pihak sekolah dengan konteks yang jelas, sehingga koordinasi tentang anak bisa lebih cepat, hangat, dan tertata.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="role">
+      <div class="container">
+        <div class="section-head">
+          <h2>Hak akses disesuaikan dengan struktur sekolah.</h2>
+          <p class="lead">Setiap pengguna masuk ke ruang kerja sesuai tanggung jawabnya, sehingga admin, guru, wali kelas, bendahara, siswa, dan orang tua mendapatkan informasi yang tepat untuk mengambil keputusan dengan tenang.</p>
+        </div>
+        <div class="role-list">
+          <div class="role">Admin Sekolah<span>Kelola identitas sekolah, master data, user, dan konfigurasi.</span></div>
+          <div class="role">Kepala Sekolah<span>Lihat rekap absensi staf, jurnal, dan keuangan.</span></div>
+          <div class="role">Bendahara<span>SPP, tagihan, pembayaran, kas, pemasukan, pengeluaran.</span></div>
+          <div class="role">Wali Kelas<span>Monitoring murid kelasnya, rapor, kontak wali, dan absensi.</span></div>
+          <div class="role">Guru<span>Input nilai dan ujian sesuai mata pelajarannya.</span></div>
+          <div class="role">Petugas Gerbang<span>Mode kiosk scan QR/RFID siswa.</span></div>
+          <div class="role">Siswa<span>Portal absensi, ujian, rapor, tagihan, info.</span></div>
+          <div class="role">Orang Tua<span>Pantau data anak, tagihan, rapor, izin, pengumuman.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="alur">
+      <div class="container">
+        <div class="section-head">
+          <h2>Alur implementasi dibuat realistis untuk sekolah Indonesia.</h2>
+          <p class="lead">Sistem bisa dimulai dari absensi dulu, lalu berkembang ke WA, SPP, rapor, ujian, dan portal lengkap tanpa memecah data.</p>
+        </div>
+        <div class="grid four steps">
+          <article class="card step"><h3>Setup Sekolah</h3><p>Isi logo, nama sekolah, alamat, kontak, tahun ajaran, semester, kelas, guru, wali, siswa, dan mapel.</p></article>
+          <article class="card step"><h3>Aktifkan Absensi</h3><p>Generate QR siswa, binding RFID bila ada, atur geofence lokasi sekolah, lalu gunakan mode kiosk gerbang.</p></article>
+          <article class="card step"><h3>Hubungkan Komunikasi</h3><p>Pasang token Fonnte, pilih template WA, dan gunakan data wali siswa dari master data.</p></article>
+          <article class="card step"><h3>Jalankan Akademik</h3><p>Kelola SPP, rapor, ujian online, pengumuman, portal siswa/orang tua, dan laporan manajemen.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="keunggulan" class="band">
+      <div class="container">
+        <div class="section-head">
+          <h2>Keunggulan yang membuat sekolah lebih tertib dan mudah dipantau.</h2>
+        </div>
+        <div class="grid two">
+          <article class="card"><h3>Data master rapi dan konsisten</h3><p>Kelas, siswa, wali, guru, dan mapel memakai data master yang sama. Admin bekerja lebih cepat karena setiap modul mengambil referensi data yang sudah tertata.</p></article>
+          <article class="card"><h3>Siap untuk banyak sekolah</h3><p>Fondasi SaaS multi-tenant memakai tenant sekolah sehingga satu platform dapat melayani banyak sekolah dengan data yang dipisahkan.</p></article>
+          <article class="card"><h3>Siap untuk implementasi bertahap</h3><p>Sekolah dapat mulai dari modul prioritas seperti absensi dan WhatsApp, lalu mengaktifkan SPP, rapor, ujian, dan portal keluarga saat proses internal sudah siap.</p></article>
+          <article class="card"><h3>Follow-up orang tua otomatis</h3><p>Absensi, SPP, pengumuman, rapor, dan jadwal ujian bisa menjadi trigger pesan WhatsApp sehingga komunikasi sekolah ke keluarga terasa lebih cepat dan teratur.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2>Pertanyaan yang sering muncul saat demo.</h2>
+        </div>
+        <div class="grid two">
+          <article class="card"><h3>Apakah QR bisa dibaca kamera HP/laptop?</h3><p>Bisa. QR siswa dapat dibaca langsung dari kamera browser. Scanner fisik tetap bisa dipakai sebagai tambahan.</p></article>
+          <article class="card"><h3>Apakah RFID harus disetting setiap absen?</h3><p>RFID cukup dibinding satu kali ke siswa. Setelah itu petugas tinggal scan kartu di mode kiosk dan sistem langsung mengenali siswa tersebut.</p></article>
+          <article class="card"><h3>Bagaimana tampilan data untuk orang tua?</h3><p>Akun orang tua ditautkan ke anaknya, sehingga informasi yang tampil langsung fokus pada kehadiran, tagihan, rapor, izin, dan pengumuman yang berkaitan dengan anak tersebut.</p></article>
+          <article class="card"><h3>Apakah ujian online benar-benar anti nyontek?</h3><p>Sistem mencatat pindah tab, keluar fullscreen, copy/paste, klik kanan, kehilangan fokus, dan submit terlambat. Log ini membantu guru membaca pola pengerjaan dengan lebih objektif.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="container cta-box">
+        <div>
+          <h2>Ingin melihat demo sistem sekolah lengkap?</h2>
+          <p>Isi data singkat, sistem akan menyimpan lead marketing dan membuka WhatsApp admin dengan pesan otomatis sesuai identitas sekolah.</p>
+        </div>
+        <a class="btn green" href="#demo" data-demo-open data-cta-name="bottom_demo"><i class="fa-brands fa-whatsapp"></i> Minta Demo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Sistem Sekolah SaaS - Absensi, WhatsApp, SPP, Rapor, Ujian, dan Portal Orang Tua.</div>
+  </footer>
+
+  <a class="wa-float" href="#demo" data-demo-open data-cta-name="floating_demo" aria-label="Minta demo via WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <div id="demo-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="demo-title">
+    <div class="demo-card">
+      <header>
+        <div>
+          <h3 id="demo-title">Minta Demo Sistem Sekolah</h3>
+          <p>Data masuk ke marketing analytics dan WhatsApp admin.</p>
+        </div>
+        <button class="demo-close" type="button" data-demo-close aria-label="Tutup form demo"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <form id="demo-form" class="demo-form">
+        <label>Nama
+          <input id="demo-name" name="name" required autocomplete="name" placeholder="Nama Anda">
+        </label>
+        <label>Kontak WA
+          <input id="demo-whatsapp" name="whatsapp" required inputmode="tel" autocomplete="tel" placeholder="Contoh: 081234567890">
+        </label>
+        <label>Kab/Kota
+          <input id="demo-city" name="city" required autocomplete="address-level2" placeholder="Contoh: Makassar">
+        </label>
+        <label>Nama Sekolah
+          <input id="demo-school" name="school" required autocomplete="organization" placeholder="Contoh: SMP Nusantara">
+        </label>
+        <label class="demo-consent">
+          <input id="demo-consent" type="checkbox" required checked>
+          <span>Saya bersedia mengirim permintaan demo dan menerima follow-up terkait Sistem Sekolah SaaS melalui WhatsApp.</span>
+        </label>
+        <div id="demo-error" class="demo-error"></div>
+        <button id="demo-submit" class="btn green" type="submit"><i class="fa-brands fa-whatsapp"></i> Kirim & Buka WhatsApp</button>
+      </form>
+      <div id="demo-success" class="demo-success">
+        <b>Data demo tersimpan.</b>
+        <span>Jika WhatsApp tidak terbuka otomatis, gunakan link berikut:</span>
+        <div id="demo-link-box" class="demo-link-box"></div>
+        <a id="demo-link-button" class="btn green" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Buka WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MARKETING_API_URL = 'https://script.google.com/macros/s/AKfycbwYziI67DeBfOPJCx4vMxJHicqULF-SlRCZUD8ZvpWwrU6q0g3YV5oviPXE3FPPcxrJRQ/exec'; // TODO MARKETING: isi URL Web App GAS khusus folder marketing.
+    const ADMIN_WHATSAPP_NUMBER = '62882020757881';
+    let marketingIpLocationCache = null;
+    let marketingIpLocationPromise = null;
+
+    function marketingId(key) {
+      let value = '';
+      try { value = localStorage.getItem(key); } catch (err) {}
+      if (!value) {
+        value = (window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : 'id_' + Math.random().toString(36).slice(2) + Date.now().toString(36));
+        try { localStorage.setItem(key, value); } catch (err) {}
+      }
+      return value;
+    }
+
+    function marketingSessionId() {
+      let value = '';
+      try { value = sessionStorage.getItem('marketing_session_id'); } catch (err) {}
+      if (!value) {
+        value = (window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : 'sess_' + Math.random().toString(36).slice(2) + Date.now().toString(36));
+        try { sessionStorage.setItem('marketing_session_id', value); } catch (err) {}
+      }
+      return value;
+    }
+
+    function marketingUtm() {
+      const params = new URLSearchParams(location.search);
+      return {
+        source: params.get('utm_source') || '',
+        medium: params.get('utm_medium') || '',
+        campaign: params.get('utm_campaign') || '',
+        term: params.get('utm_term') || '',
+        content: params.get('utm_content') || ''
+      };
+    }
+
+    function deviceType() {
+      const ua = navigator.userAgent || '';
+      if (/iPad|Tablet/i.test(ua)) return 'tablet';
+      if (/Mobi|Android|iPhone|Phone/i.test(ua)) return 'mobile';
+      return 'desktop';
+    }
+
+    function normalizeIpLocation(data = {}) {
+      return {
+        source: 'ipapi.co',
+        ip: data.ip || '',
+        country: data.country_name || data.country || '',
+        countryCode: data.country_code || '',
+        region: data.region || '',
+        regionCode: data.region_code || '',
+        city: data.city || '',
+        postal: data.postal || '',
+        latitude: Number(data.latitude || 0),
+        longitude: Number(data.longitude || 0),
+        timezone: data.timezone || '',
+        org: data.org || '',
+        asn: data.asn || ''
+      };
+    }
+
+    async function getMarketingIpLocation() {
+      if (new URLSearchParams(location.search).has('no_track') || new URLSearchParams(location.search).has('no_ip_location')) return null;
+      if (marketingIpLocationCache) return marketingIpLocationCache;
+      try {
+        const stored = JSON.parse(sessionStorage.getItem('marketing_ip_location') || 'null');
+        if (stored?.date === new Date().toISOString().slice(0, 10) && stored?.data) {
+          marketingIpLocationCache = stored.data;
+          return marketingIpLocationCache;
+        }
+      } catch (err) {}
+      if (!marketingIpLocationPromise) {
+        marketingIpLocationPromise = (async () => {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 2500);
+          try {
+            const response = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+            if (!response.ok) return null;
+            const data = await response.json();
+            if (data.error) return null;
+            marketingIpLocationCache = normalizeIpLocation(data);
+            try {
+              sessionStorage.setItem('marketing_ip_location', JSON.stringify({
+                date: new Date().toISOString().slice(0, 10),
+                data: marketingIpLocationCache
+              }));
+            } catch (err) {}
+            return marketingIpLocationCache;
+          } catch (err) {
+            return null;
+          } finally {
+            clearTimeout(timeout);
+          }
+        })();
+      }
+      return marketingIpLocationPromise;
+    }
+
+    function marketingContext(extra = {}) {
+      return {
+        page: location.pathname + location.search,
+        pageTitle: document.title,
+        sourceLink: location.href,
+        landingProduct: 'school_saas',
+        productName: 'Sistem Sekolah SaaS',
+        referrer: document.referrer || '',
+        visitorId: marketingId('marketing_visitor_id'),
+        sessionId: marketingSessionId(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+        language: navigator.language || '',
+        userAgent: navigator.userAgent || '',
+        platform: navigator.platform || '',
+        ipLocation: extra.ipLocation || marketingIpLocationCache || null,
+        device: {
+          type: deviceType(),
+          platform: navigator.platform || ''
+        },
+        screen: {
+          width: window.screen ? window.screen.width : 0,
+          height: window.screen ? window.screen.height : 0,
+          pixelRatio: window.devicePixelRatio || 1
+        },
+        utm: marketingUtm()
+      };
+    }
+
+    async function marketingRequest(action, payload = {}) {
+      if (new URLSearchParams(location.search).has('no_track')) return { success: false, error: 'Tracking dinonaktifkan untuk preview' };
+      if (!MARKETING_API_URL) return { success: false, error: 'API marketing belum diatur' };
+      try {
+        const response = await fetch(MARKETING_API_URL, {
+          method: 'POST',
+          redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action, ...payload })
+        });
+        return await response.json();
+      } catch (err) {
+        return { success: false, error: 'Tidak bisa menghubungi server tracking' };
+      }
+    }
+
+    async function trackLandingVisit() {
+      const ipLocation = await getMarketingIpLocation();
+      marketingRequest('trackLandingVisit', marketingContext({ ipLocation })).catch(() => {});
+    }
+
+    function trackLandingEvent(label, targetUrl = '') {
+      getMarketingIpLocation().then(ipLocation => {
+        marketingRequest('trackLandingEvent', {
+          ...marketingContext({ ipLocation }),
+          eventType: 'cta_click',
+          label,
+          targetUrl
+        }).catch(() => {});
+      }).catch(() => {});
+    }
+
+    function normalizeWhatsappInput(value) {
+      let clean = String(value || '').replace(/[^\d+]/g, '');
+      if (clean.startsWith('+')) clean = clean.slice(1);
+      if (clean.startsWith('0')) clean = '62' + clean.slice(1);
+      return clean;
+    }
+
+    function buildDemoWhatsappLink(data = {}) {
+      const name = String(data.name || '').trim();
+      const whatsapp = String(data.whatsapp || '').trim();
+      const city = String(data.city || '').trim();
+      const school = String(data.school || '').trim();
+      const text = `halo min, saya ${name || '[nama]'}${whatsapp ? `, kontak WA ${whatsapp}` : ''}${city ? `, dari ${city}` : ''}${school ? `, nama sekolah ${school}` : ''}, ingin mencoba demo sistem sekolah.`;
+      return `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
+    function openDemoModal(label = 'demo') {
+      trackLandingEvent(label, buildDemoWhatsappLink());
+      document.getElementById('demo-modal').classList.add('active');
+      document.getElementById('demo-name').focus();
+    }
+
+    function closeDemoModal() {
+      document.getElementById('demo-modal').classList.remove('active');
+    }
+
+    async function submitDemoForm(event) {
+      event.preventDefault();
+      const submit = document.getElementById('demo-submit');
+      const error = document.getElementById('demo-error');
+      const success = document.getElementById('demo-success');
+      const waWindow = window.open('', '_blank');
+      if (waWindow) waWindow.document.write('<title>Membuka WhatsApp...</title><p style="font-family:sans-serif">Membuka WhatsApp admin...</p>');
+
+      error.style.display = 'none';
+      success.classList.remove('active');
+      submit.disabled = true;
+      submit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+
+      const leadName = document.getElementById('demo-name').value.trim();
+      const leadWhatsapp = normalizeWhatsappInput(document.getElementById('demo-whatsapp').value);
+      const leadCity = document.getElementById('demo-city').value.trim();
+      const leadSchool = document.getElementById('demo-school').value.trim();
+      const whatsappLink = buildDemoWhatsappLink({
+        name: leadName,
+        whatsapp: leadWhatsapp,
+        city: leadCity,
+        school: leadSchool
+      });
+      const ipLocation = await getMarketingIpLocation();
+      const payload = {
+        ...marketingContext({ ipLocation }),
+        name: leadName,
+        whatsapp: leadWhatsapp,
+        city: leadCity,
+        institution: leadSchool,
+        schoolName: leadSchool,
+        consentBroadcast: document.getElementById('demo-consent').checked,
+        demoLink: whatsappLink
+      };
+
+      const result = await marketingRequest('createDemoLead', payload);
+      submit.disabled = false;
+      submit.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Kirim & Buka WhatsApp';
+
+      if (!result.success) {
+        if (waWindow) waWindow.close();
+        error.textContent = result.error || 'Data demo gagal disimpan. Coba ulangi sebentar lagi.';
+        error.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('demo-link-box').textContent = whatsappLink;
+      const linkButton = document.getElementById('demo-link-button');
+      linkButton.href = whatsappLink;
+      success.classList.add('active');
+      if (navigator.clipboard) navigator.clipboard.writeText(whatsappLink).catch(() => {});
+      if (waWindow) waWindow.location.href = whatsappLink;
+    }
+
+    document.querySelectorAll('[data-demo-open]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        openDemoModal(link.dataset.ctaName || 'demo_click');
+      });
+    });
+
+    document.querySelectorAll('[data-demo-close]').forEach(button => button.addEventListener('click', closeDemoModal));
+    document.getElementById('demo-modal').addEventListener('click', event => {
+      if (event.target.id === 'demo-modal') closeDemoModal();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeDemoModal();
+    });
+    document.getElementById('demo-form').addEventListener('submit', submitDemoForm);
+    trackLandingVisit();
+  </script>
+</body>
+</html>
